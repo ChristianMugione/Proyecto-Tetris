@@ -1,0 +1,65 @@
+* {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  box-sizing: border-box;
+}
+
+.body {
+  background-color: coral;
+  /* background-image: url("./img/playa.jpg"); */
+  /* background-repeat: repeat-y; */
+  /* background-size: cover; */
+
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+
+  padding: 5%;
+  gap: 4px;
+}
+
+.body > div {
+  background-color: #ffffff80;
+  min-height: 300px;
+  min-width: 200px;
+
+  border-radius: 8px;
+}
+
+#onoff {
+  padding: 5px;
+  cursor: pointer;
+}
+
+.left {
+  display: flex;
+  flex-direction: column;
+}
+
+.flex-row {
+  display: flex;
+}
+
+.pix {
+  width: 20px;
+  height: 20px;
+  /* background-color: yellowgreen; */
+  border: 1px solid #00000010;
+}
+
+.red {
+  background-color: red;
+}
+
+.green {
+  background-color: green;
+}
+
+.yellow {
+  background-color: yellow;
+}
+
+.blue {
+  background-color: blue;
+}
