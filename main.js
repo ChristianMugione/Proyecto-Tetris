@@ -36,7 +36,7 @@ const printBoard = () => {
   let res = "";
   for (let i = 0; i < 20; i++) {
     res += "<div class='flex-row'>";
-    for (let j = 0; j <= 10; j++) {
+    for (let j = 0; j < 10; j++) {
       res += printPixel(arrayBoard[i][j]);
     }
     res += "</div>";
@@ -171,18 +171,74 @@ const newPiece = () => {
   //cuando vaya a moverse hacia abajo debe controlar que sus numeros inferiores distintos de cero tengan espacio abajo, donde van a moverse. Ahi deben haber ceros. OJO
 };
 
-const moveLeft = () => {
+const checkCollisionLeft = () => {
+  res = true;
   if (positionPiece[1] > 0) {
     //ahora chequeo colision a la izq
     //recorro la pieza con un for desde su primer row hasta el ultimo
-    //en cada row busco el nocero mas a la izq y veo si tiene lugar libre a su izq
+    for (let row = 0; row < currentPiece.length; row++) {
+      //en cada row busco el nocero mas a la izq y veo si tiene lugar libre a su izq
+      let pos = 0;
+      while (currentPiece[row][pos] == 0) {
+        pos++;
+      }
+      if (arrayBoard[positionPiece[0] + row][positionPiece[1] - 1 + pos] != 0) {
+        res = false;
+      }
+    }
     //si no hay ningun lugar no se mueve
     //si hay lugar borra pieza (convierto los noceros en ceros)
     //se a positi
+  } else {
+    res = false;
+  }
+  return res;
+};
+
+const checkCollisionRight = () => {
+  res = true;
+  if (positionPiece[1] + currentPiece[0].length < 10) {
+    //ahora chequeo colision a la der
+    //recorro la pieza con un for desde su primer row hasta el ultimo
+    for (let row = 0; row < currentPiece.length; row++) {
+      //en cada row busco el nocero mas a la der y veo si tiene lugar libre a su der
+      let pos = currentPiece[0].length;
+      while (currentPiece[row][pos] == 0) {
+        pos--;
+      }
+      if (arrayBoard[positionPiece[0] + row][positionPiece[1] + pos] != 0) {
+        res = false;
+        console.log(
+          "choca con nocero. positionPiece[0]+row:",
+          positionPiece[0] + row
+        );
+        console.log("positionPiece[1] + 1 + pos:", positionPiece[1] + 1 + pos);
+      }
+    }
+  } else {
+    res = false;
+    console.log("choca con limite der");
+  }
+  return res;
+};
+
+const moveLeft = () => {
+  if (checkCollisionLeft()) {
+    erasePiece();
+    positionPiece[1] -= 1;
+    putPiece();
+    printBoard();
   }
 };
 
-const moveRight = () => {};
+const moveRight = () => {
+  if (checkCollisionRight()) {
+    erasePiece();
+    positionPiece[1] += 1;
+    putPiece();
+    printBoard();
+  }
+};
 
 const rotatePiece = () => {};
 
@@ -218,11 +274,12 @@ const gameOn = () => {
       putPiece();
       printBoard();
       console.log("New position: ", positionPiece[0]);
+      console.log(arrayBoard);
     }
     //imprimir en nueva posicion
     function gameOff() {
       clearInterval(gameRun);
-      init();
+      //init();
     }
     buttOff.addEventListener("click", gameOff);
   }, 1000);
@@ -239,3 +296,10 @@ const init = () => {
 };
 
 init();
+/*
+falta girar pieza
+acelerar caida
+imprimir bien game over
+asignar puntajes
+highscores
+*/
