@@ -2,6 +2,7 @@ const left = document.querySelector(".left");
 const game = document.querySelector(".game");
 const right = document.querySelector(".right");
 const buttOn = document.getElementById("on");
+const buttPause = document.getElementById("pause");
 const buttOff = document.getElementById("off");
 
 game.innerHTML = "";
@@ -49,8 +50,7 @@ const selectPiece = () => {
   currentPieceNumber = Math.floor(Math.random() * pieces.length);
   //selecciona un color
   const pieceColor = Math.floor(Math.random() * 4) + 1;
-  console.log("pieceColor: ", pieceColor);
-  //console.log(currentPieceNumber, pieceColor);
+
   currentSetOfPieces = [];
   currentSetOfPieces = [...pieces[currentPieceNumber]];
   for (
@@ -79,20 +79,19 @@ const selectPiece = () => {
     }
   }
   currentPiece = currentSetOfPieces[0];
-  //console.log(currentSetOfPieces);
 };
 
 const checkCollisionDown = () => {
   let collision = false;
-  console.log("Chequeo colision abajo. INICIO", currentPiece[0].length);
+
   for (let col = 0; col < currentPiece[0].length; col++) {
     let pos = 1;
-    console.log("currentPiece.length - 1", currentPiece.length - 1);
+
     const pieceHeight = currentPiece.length;
     while (currentPiece[pieceHeight - pos][col] == 0) {
       pos++;
     }
-    console.log(`en columna ${col} la posicion mas baja es ${pos}`);
+
     if (positionPiece[0] + currentPiece.length > 19) {
       collision = true;
     } else if (
@@ -113,18 +112,11 @@ const placeForPiece = () => {
   let isOk = true;
   for (let row = 0; row < currentPiece.length; row++) {
     for (let col = 0; col < currentPiece[0].length; col++) {
-      console.log("row: ", row, " col: ", col);
-
       const realRow = row + positionPiece[0];
       const realCol = col + positionPiece[1];
-      console.log("realRow: ", realRow, " realCol: ", realCol);
+
       if (currentPiece[row][col] != 0 && arrayBoard[realRow][realCol] != 0) {
         isOk = false;
-        console.log(
-          "error",
-          currentPiece[row][col],
-          arrayBoard[realCol][realRow]
-        );
       }
     }
   }
@@ -132,7 +124,6 @@ const placeForPiece = () => {
 };
 
 const putPiece = () => {
-  //console.log(arrayBoard);
   for (let col = 0; col < currentPiece[0].length; col++) {
     for (let row = 0; row < currentPiece.length; row++) {
       const realRow = row + positionPiece[0];
@@ -142,7 +133,6 @@ const putPiece = () => {
       }
     }
   }
-  //console.log(arrayBoard);
 };
 
 const erasePiece = () => {
@@ -202,8 +192,8 @@ const checkCollisionRight = () => {
     //recorro la pieza con un for desde su primer row hasta el ultimo
     for (let row = 0; row < currentPiece.length; row++) {
       //en cada row busco el nocero mas a la der y veo si tiene lugar libre a su der
-      let pos = currentPiece[0].length;
-      while (currentPiece[row][pos] == 0) {
+      let pos = currentPiece[0].length; // hacia la derecha calcula mal algo -----------------------
+      while (currentPiece[row][pos - 1] == 0) {
         pos--;
       }
       if (arrayBoard[positionPiece[0] + row][positionPiece[1] + pos] != 0) {
@@ -212,7 +202,8 @@ const checkCollisionRight = () => {
           "choca con nocero. positionPiece[0]+row:",
           positionPiece[0] + row
         );
-        console.log("positionPiece[1] + 1 + pos:", positionPiece[1] + 1 + pos);
+        let temp = positionPiece[1] + pos;
+        console.log("positionPiece[1] + pos:", temp, "pos ", pos);
       }
     }
   } else {
@@ -240,7 +231,24 @@ const moveRight = () => {
   }
 };
 
-const rotatePiece = () => {};
+const moveDown = () => {
+  if (!checkCollisionDown()) {
+    erasePiece();
+    positionPiece[0] += 1;
+    putPiece();
+    printBoard();
+  }
+};
+
+const checkCollisionRotate = () => {
+  //chequea con la pieza rotada y si todo va bien cambia la current por la rotada
+};
+
+const rotatePiece = () => {
+  erasePiece();
+  checkCollisionRotate();
+  putPiece();
+};
 
 const detectKey = (e) => {
   switch (e.key) {
@@ -253,6 +261,26 @@ const detectKey = (e) => {
     case "w":
       rotatePiece();
       break;
+    case "s":
+      moveDown();
+      break;
+  }
+};
+
+const deleteRow = (rowToDel) => {
+  for (let row = rowToDel; row > 0; row--) {
+    for (let col = 0; col < 10; col++) {
+      arrayBoard[row][col] = arrayBoard[row - 1][col];
+    }
+  }
+  printBoard();
+};
+
+const checkCompletedLines = () => {
+  for (let row = 19; row >= 0; row--) {
+    if (!arrayBoard[row].some((num) => num == 0)) {
+      deleteRow(row);
+    }
   }
 };
 
@@ -265,6 +293,7 @@ const gameOn = () => {
     //chequear colision abajo: SI => gameover
     //si abajo de un no-cero hay un no-cero then gameover
     if (checkCollisionDown()) {
+      checkCompletedLines();
       positionPiece = [0, 4];
       newPiece();
     } else {
@@ -279,9 +308,14 @@ const gameOn = () => {
     //imprimir en nueva posicion
     function gameOff() {
       clearInterval(gameRun);
+      init();
+    }
+    function gamePause() {
+      clearInterval(gameRun);
       //init();
     }
     buttOff.addEventListener("click", gameOff);
+    buttPause.addEventListener("click", gamePause);
   }, 1000);
 };
 
