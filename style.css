@@ -39,6 +39,10 @@
   flex-direction: column;
 }
 
+.right {
+  padding: 8px;
+}
+
 .flex-row {
   display: flex;
 }
@@ -46,7 +50,10 @@
 .pix {
   width: 20px;
   height: 20px;
-  border: 1px solid #00000010;
+  border-top: 2px solid #55555560;
+  border-right: 2px solid #55555560;
+  border-bottom: 2px solid #ffffff60;
+  border-left: 2px solid #ffffff60;
 }
 
 .red {
