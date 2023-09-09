@@ -12,6 +12,8 @@ game.innerHTML = "";
 let currentPiece, nextPiece, currentPieceNumber;
 let positionPiece = [0, 4];
 let currentSetOfPieces;
+let angleOfCurrentPiece;
+let gameRun;
 
 let arrayBoard = [];
 
@@ -79,25 +81,25 @@ const selectPiece = () => {
     }
   }
   currentPiece = currentSetOfPieces[0];
+  angleOfCurrentPiece = 0;
 };
 
-const checkCollisionDown = () => {
+const checkCollisionDown = (currPiece, posPiece) => {
   let collision = false;
 
-  for (let col = 0; col < currentPiece[0].length; col++) {
+  for (let col = 0; col < currPiece[0].length; col++) {
     let pos = 1;
 
-    const pieceHeight = currentPiece.length;
-    while (currentPiece[pieceHeight - pos][col] == 0) {
+    const pieceHeight = currPiece.length;
+    while (currPiece[pieceHeight - pos][col] == 0) {
       pos++;
     }
 
-    if (positionPiece[0] + currentPiece.length > 19) {
+    if (posPiece[0] + currPiece.length > 19) {
       collision = true;
     } else if (
-      arrayBoard[positionPiece[0] + currentPiece.length - pos + 1][
-        positionPiece[1] + col
-      ] != 0
+      arrayBoard[posPiece[0] + currPiece.length - pos + 1][posPiece[1] + col] !=
+      0
     ) {
       collision = true;
     }
@@ -105,8 +107,6 @@ const checkCollisionDown = () => {
   // ||  positionPiece[0] + currentPiece.length > 19
   return collision;
 };
-
-// Para detener el intervalo cuando sea necesario:
 
 const placeForPiece = () => {
   let isOk = true;
@@ -149,7 +149,9 @@ const erasePiece = () => {
 
 const newPiece = () => {
   selectPiece();
-
+  if (currentPieceNumber === 2) {
+    positionPiece = [1, 3];
+  }
   if (placeForPiece()) {
     putPiece(); //inicializar variables
     printBoard();
@@ -161,18 +163,18 @@ const newPiece = () => {
   //cuando vaya a moverse hacia abajo debe controlar que sus numeros inferiores distintos de cero tengan espacio abajo, donde van a moverse. Ahi deben haber ceros. OJO
 };
 
-const checkCollisionLeft = () => {
+const checkCollisionLeft = (currPiece, posPiece) => {
   res = true;
-  if (positionPiece[1] > 0) {
+  if (posPiece[1] > 0) {
     //ahora chequeo colision a la izq
     //recorro la pieza con un for desde su primer row hasta el ultimo
-    for (let row = 0; row < currentPiece.length; row++) {
+    for (let row = 0; row < currPiece.length; row++) {
       //en cada row busco el nocero mas a la izq y veo si tiene lugar libre a su izq
       let pos = 0;
-      while (currentPiece[row][pos] == 0) {
+      while (currPiece[row][pos] == 0) {
         pos++;
       }
-      if (arrayBoard[positionPiece[0] + row][positionPiece[1] - 1 + pos] != 0) {
+      if (arrayBoard[posPiece[0] + row][posPiece[1] - 1 + pos] != 0) {
         res = false;
       }
     }
@@ -185,25 +187,25 @@ const checkCollisionLeft = () => {
   return res;
 };
 
-const checkCollisionRight = () => {
+const checkCollisionRight = (currPiece, posPiece) => {
   res = true;
-  if (positionPiece[1] + currentPiece[0].length < 10) {
+  if (posPiece[1] + currPiece[0].length < 10) {
     //ahora chequeo colision a la der
     //recorro la pieza con un for desde su primer row hasta el ultimo
-    for (let row = 0; row < currentPiece.length; row++) {
+    for (let row = 0; row < currPiece.length; row++) {
       //en cada row busco el nocero mas a la der y veo si tiene lugar libre a su der
-      let pos = currentPiece[0].length; // hacia la derecha calcula mal algo -----------------------
-      while (currentPiece[row][pos - 1] == 0) {
+      let pos = currPiece[0].length; // hacia la derecha calcula mal algo -----------------------
+      while (currPiece[row][pos - 1] == 0) {
         pos--;
       }
-      if (arrayBoard[positionPiece[0] + row][positionPiece[1] + pos] != 0) {
+      if (arrayBoard[posPiece[0] + row][posPiece[1] + pos] != 0) {
         res = false;
         console.log(
           "choca con nocero. positionPiece[0]+row:",
-          positionPiece[0] + row
+          posPiece[0] + row
         );
-        let temp = positionPiece[1] + pos;
-        console.log("positionPiece[1] + pos:", temp, "pos ", pos);
+        let temp = posPiece[1] + pos;
+        console.log("posPiece[1] + pos:", temp, "pos ", pos);
       }
     }
   } else {
@@ -214,7 +216,7 @@ const checkCollisionRight = () => {
 };
 
 const moveLeft = () => {
-  if (checkCollisionLeft()) {
+  if (checkCollisionLeft(currentPiece, positionPiece)) {
     erasePiece();
     positionPiece[1] -= 1;
     putPiece();
@@ -223,7 +225,7 @@ const moveLeft = () => {
 };
 
 const moveRight = () => {
-  if (checkCollisionRight()) {
+  if (checkCollisionRight(currentPiece, positionPiece)) {
     erasePiece();
     positionPiece[1] += 1;
     putPiece();
@@ -232,7 +234,7 @@ const moveRight = () => {
 };
 
 const moveDown = () => {
-  if (!checkCollisionDown()) {
+  if (!checkCollisionDown(currentPiece, positionPiece)) {
     erasePiece();
     positionPiece[0] += 1;
     putPiece();
@@ -240,29 +242,86 @@ const moveDown = () => {
   }
 };
 
+const getNextAngle = () => {
+  console.log("angleOfCurrentPiece", angleOfCurrentPiece);
+  let res = angleOfCurrentPiece + 1;
+  console.log(
+    "res:",
+    res,
+    " currentSetOfPieces.length:",
+    currentSetOfPieces.length
+  );
+  if (res > currentSetOfPieces.length - 1) {
+    res = 0;
+  }
+  return res;
+};
+
 const checkCollisionRotate = () => {
-  //chequea con la pieza rotada y si todo va bien cambia la current por la rotada
+  //PROBLEMA cuando rota cerca del margen derecho!!!!!!!!!!!!!!!
+  const nextAngle = getNextAngle();
+  const nextPiece = currentSetOfPieces[nextAngle];
+
+  console.log("---", currentSetOfPieces);
+
+  let collision = false;
+  // chequear que el ancho de la pieza no choque margenes
+  if (positionPiece[0] + nextPiece[0].length - 1 > 9) {
+    collision = true;
+  }
+
+  //recorro pieza,
+  for (let row = 0; row < nextPiece.length; row++) {
+    for (let col = 0; col < nextPiece[0].length; col++) {
+      //si el pixel de la pieza es nocero...
+      if (nextPiece[row][col] != 0) {
+        //chequeo que este pixel en el board es cero
+        let boardRow = positionPiece[0] + row;
+        let boardCol = positionPiece[1] + col;
+        if (arrayBoard[boardRow][boardCol] != 0) {
+          collision = true;
+        }
+      }
+    }
+  }
+  if (!collision) {
+    currentPiece = [...nextPiece];
+    angleOfCurrentPiece = nextAngle;
+  }
 };
 
 const rotatePiece = () => {
   erasePiece();
   checkCollisionRotate();
   putPiece();
+  printBoard();
 };
 
 const detectKey = (e) => {
+  console.log(e.key);
   switch (e.key) {
     case "a":
+    case "A":
+    case "ArrowLeft":
       moveLeft();
       break;
     case "d":
+    case "D":
+    case "ArrowRight":
       moveRight();
       break;
     case "w":
+    case "W":
+    case "ArrowUp":
       rotatePiece();
       break;
     case "s":
+    case "S":
+    case "ArrowDown":
       moveDown();
+      break;
+    case "Escape":
+      gamePause();
       break;
   }
 };
@@ -280,6 +339,7 @@ const checkCompletedLines = () => {
   for (let row = 19; row >= 0; row--) {
     if (!arrayBoard[row].some((num) => num == 0)) {
       deleteRow(row);
+      row++;
     }
   }
 };
@@ -289,11 +349,11 @@ const gameOn = () => {
 
   document.addEventListener("keydown", detectKey);
 
-  const gameRun = setInterval(() => {
+  gameRun = setInterval(() => {
     //chequear colision abajo: SI => gameover
     //si abajo de un no-cero hay un no-cero then gameover
-    if (checkCollisionDown()) {
-      checkCompletedLines();
+    if (checkCollisionDown(currentPiece, positionPiece)) {
+      checkCompletedLines(); //revisar esta fnc
       positionPiece = [0, 4];
       newPiece();
     } else {
@@ -302,22 +362,23 @@ const gameOn = () => {
       positionPiece[0] += 1;
       putPiece();
       printBoard();
-      console.log("New position: ", positionPiece[0]);
-      console.log(arrayBoard);
+      //console.log("New position: ", positionPiece[0]);
+      //console.log(arrayBoard);
     }
-    //imprimir en nueva posicion
-    function gameOff() {
-      clearInterval(gameRun);
-      init();
-    }
-    function gamePause() {
-      clearInterval(gameRun);
-      //init();
-    }
-    buttOff.addEventListener("click", gameOff);
-    buttPause.addEventListener("click", gamePause);
   }, 1000);
 };
+
+function gameOff() {
+  clearInterval(gameRun);
+  init();
+}
+
+function gamePause() {
+  clearInterval(gameRun);
+}
+
+buttOff.addEventListener("click", gameOff);
+buttPause.addEventListener("click", gamePause);
 
 const init = () => {
   positionPiece = [0, 4];
