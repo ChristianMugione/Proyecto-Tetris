@@ -5,6 +5,10 @@ const buttOn = document.getElementById("on");
 const buttPause = document.getElementById("pause");
 const buttOff = document.getElementById("off");
 const nextPieceImg = document.getElementById("next-piece-img");
+const btnLeft = document.getElementById("left");
+const btnRight = document.getElementById("right");
+const btnDown = document.getElementById("down");
+const btnRotate = document.getElementById("rotate");
 
 game.innerHTML = "";
 
@@ -394,6 +398,10 @@ const init = () => {
 
   //console.log(arrayBoard);
   buttOn.addEventListener("click", gameOn);
+  btnLeft.addEventListener("click", moveLeft);
+  btnRight.addEventListener("click", moveRight);
+  btnDown.addEventListener("click", moveDown);
+  btnRotate.addEventListener("click", rotatePiece);
 };
 
 init();

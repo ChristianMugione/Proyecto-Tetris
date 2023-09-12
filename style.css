@@ -15,7 +15,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: stretch;
+  align-items: center;
 
   position: relative;
 
@@ -36,6 +36,7 @@
   display: flex;
   justify-content: space-between;
   padding: 0 22px;
+  width: 600px;
   height: 40px;
 }
 
@@ -54,6 +55,7 @@
 .container {
   display: flex;
   justify-content: center;
+  max-width: inherit;
   gap: 2px;
   height: calc(100vh - 40px);
 }
@@ -79,20 +81,24 @@
 
 .left {
   gap: 5px;
+  font-size: 1.5em;
 }
 
-.left > button {
+.ctrl-btns {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+}
+
+.side button {
   aspect-ratio: 1/1;
-  width: 40%;
+  width: 30%;
+  max-width: 40px;
 
   cursor: pointer;
   border: 0;
   border-radius: 30%;
   box-shadow: 0 0 5px gray;
-}
-
-.left > button > i {
-  font-size: 2em;
 }
 
 .right {
@@ -129,15 +135,38 @@
 }
 
 .keys {
-  position: absolute;
-  bottom: 100px;
+  display: flex;
+  align-items: flex-end;
 
-  background-color: #fbda61;
-  width: 30px;
-  height: 30px;
+  position: absolute;
+
+  bottom: 10px;
+  z-index: 1;
 }
 
-@media (max-width: 660px) {
+.keys i {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #ffffff50;
+  width: 50px;
+  height: 50px;
+  border-radius: 8px;
+  margin: 2px;
+}
+
+.keys-center {
+  display: flex;
+  flex-direction: column;
+}
+
+@media (max-width: 610px) {
+  .header {
+    width: 100%;
+  }
+  .container {
+    width: 100%;
+  }
   .side {
     min-width: unset;
     width: 100%;
@@ -150,5 +179,17 @@
   }
   .right {
     border-radius: 8px 0 0 8px;
+  }
+}
+
+@media (max-width: 510px) {
+  .ctrl-btns {
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .side button {
+    width: 80%;
   }
 }

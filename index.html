@@ -18,9 +18,11 @@
   <main class="container">
 
     <div class="left side">
-      <button id="on"><i class="bi bi-play-circle"></i></button>
-      <button id="pause"><i class="bi bi-pause-circle"></i></button>
-      <button id="off"><i class="bi bi-stop-circle"></i></button>
+      <div class="ctrl-btns">
+        <button id="on"><i class="bi bi-play-circle"></i></button>
+        <button id="pause"><i class="bi bi-pause-circle"></i></button>
+        <button id="off"><i class="bi bi-stop-circle"></i></button>
+      </div>
 
     </div>
     <div class="game"></div>
@@ -29,13 +31,19 @@
         <h3 class="section-name">Next</h3>
         <div id="next-piece-img"></div>
       </div>
-      <i class="bi bi-arrow-counterclockwise"></i>
     </div>
   </main>
   <div class="keys">
-    <i class="bi bi-arrow-left"></i>
-    <i class="bi bi-arrow-down"></i>
-    <i class="bi bi-arrow-right"></i>
+    <div class="keys-left">
+      <i class="bi bi-arrow-left" id="left"></i>
+    </div>
+    <div class="keys-center">
+      <i class="bi bi-arrow-clockwise" id="rotate"></i>
+      <i class="bi bi-arrow-down" id="down"></i>
+    </div>
+    <div class="keys-right">
+      <i class="bi bi-arrow-right" id="right"></i>
+    </div>
 
   </div>
 </body>
