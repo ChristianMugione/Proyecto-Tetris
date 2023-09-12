@@ -6,41 +6,96 @@
 }
 
 .body {
-  background-color: coral;
-  background-image: url("./img/playa.jpg");
-  background-repeat: repeat-y;
-  background-size: cover;
+  /*background-image: url("./img/playa.jpg");
+  background-position: center center;
+  background-size: auto;*/
+  background-color: #fbda61;
+  background-image: linear-gradient(135deg, #fbda61 0%, #ff5acd 100%);
 
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: stretch;
 
-  padding: 5%;
-  gap: 4px;
+  position: relative;
+
+  /* padding-top: 5%; */
+  /* gap: 4px; */
 
   font-family: "Courier New", Courier, monospace;
 }
 
-.body > div {
+.header {
+  background: linear-gradient(
+    #ffffff00 0%,
+    #ffffff50 10%,
+    #ffffff50 85%,
+    #ffffff00 100%
+  );
+
+  display: flex;
+  justify-content: space-between;
+  padding: 0 22px;
+  height: 40px;
+}
+
+.title {
+  background-color: #ffe53b;
+  background-image: linear-gradient(225deg, #ff9a3b 0%, #ff2525 74%);
+
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.burger {
+  width: 18px;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  gap: 2px;
+  height: calc(100vh - 40px);
+}
+
+.game {
   background-color: #ffffff80;
-  min-height: 300px;
+  height: 400px;
   min-width: 200px;
 
   border-radius: 8px;
 }
 
-#onoff {
-  padding: 5px;
-  cursor: pointer;
+.side {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #ffffff80;
+  height: 400px;
+  min-width: 200px;
+  padding: 8px;
+  border-radius: 8px;
 }
 
 .left {
-  display: flex;
-  flex-direction: column;
+  gap: 5px;
+}
+
+.left > button {
+  aspect-ratio: 1/1;
+  width: 40%;
+
+  cursor: pointer;
+  border: 0;
+  border-radius: 30%;
+  box-shadow: 0 0 5px gray;
+}
+
+.left > button > i {
+  font-size: 2em;
 }
 
 .right {
-  padding: 8px;
 }
 
 .flex-row {
@@ -54,6 +109,7 @@
   border-right: 2px solid #55555560;
   border-bottom: 2px solid #ffffff60;
   border-left: 2px solid #ffffff60;
+  border-radius: 4px;
 }
 
 .red {
@@ -70,4 +126,29 @@
 
 .blue {
   background-color: blue;
+}
+
+.keys {
+  position: absolute;
+  bottom: 100px;
+
+  background-color: #fbda61;
+  width: 30px;
+  height: 30px;
+}
+
+@media (max-width: 660px) {
+  .side {
+    min-width: unset;
+    width: 100%;
+    font-size: smaller;
+    border-radius: unset;
+  }
+
+  .left {
+    border-radius: 0 8px 8px 0;
+  }
+  .right {
+    border-radius: 8px 0 0 8px;
+  }
 }

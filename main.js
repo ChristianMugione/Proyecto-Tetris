@@ -4,6 +4,7 @@ const right = document.querySelector(".right");
 const buttOn = document.getElementById("on");
 const buttPause = document.getElementById("pause");
 const buttOff = document.getElementById("off");
+const nextPieceImg = document.getElementById("next-piece-img");
 
 game.innerHTML = "";
 
@@ -45,6 +46,10 @@ const printBoard = () => {
     res += "</div>";
   }
   game.innerHTML = res;
+};
+
+const printNextPiece = () => {
+  //imprimo la proxima pieza
 };
 
 const selectPiece = () => {
@@ -385,6 +390,7 @@ const init = () => {
   clearBoard();
   //arrayBoard[10][5] = 3;
   printBoard();
+  printNextPiece();
 
   //console.log(arrayBoard);
   buttOn.addEventListener("click", gameOn);
