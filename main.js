@@ -285,14 +285,13 @@ const getNextAngle = () => {
 };
 
 const checkCollisionRotate = () => {
-  //PROBLEMA cuando rota cerca del margen derecho!!!!!!!!!!!!!!!
   const nextAngle = getNextAngle();
   const nextPiece = currentSetOfPieces[nextAngle];
 
   console.log("---", currentSetOfPieces);
 
   let collision = false;
-  // chequear que el ancho de la pieza no choque margenes
+  // Chequea colisión con margen derecho
   if (positionPiece[1] + nextPiece[0].length - 1 > 9) {
     collision = true;
   }
@@ -380,7 +379,7 @@ const gameOn = () => {
     //chequear colision abajo: SI => gameover
     //si abajo de un no-cero hay un no-cero then gameover
     if (checkCollisionDown(currentPiece, positionPiece)) {
-      checkCompletedLines(); //revisar esta fnc
+      checkCompletedLines();
       positionPiece = [0, 4];
       newPiece();
     } else {

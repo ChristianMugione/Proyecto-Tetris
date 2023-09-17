@@ -14,10 +14,12 @@
 
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
 
-  position: relative;
+  height: 100vh;
+
+  /* position: relative; */
 
   /* padding-top: 5%; */
   /* gap: 4px; */
@@ -55,17 +57,21 @@
 .container {
   display: flex;
   justify-content: center;
-  max-width: inherit;
+  /* align-items: stretch; */
+  /* max-width: inherit; */
   gap: 2px;
   height: calc(100vh - 40px);
+  /* width: 100%; */
+  width: 600px;
+  /* height: auto; */
 }
 
 .game {
   background-color: #ffffff80;
-  height: 400px;
-  min-width: 200px;
-
   border-radius: 8px;
+  aspect-ratio: 1/2;
+  height: 100%;
+  width: auto;
 }
 
 .side {
@@ -73,8 +79,9 @@
   flex-direction: column;
   align-items: center;
   background-color: #ffffff80;
-  height: 400px;
-  min-width: 200px;
+  width: 100%;
+  height: 100%;
+  /* min-width: 200px; */
   padding: 8px;
   border-radius: 8px;
 }
@@ -109,8 +116,11 @@
 }
 
 .pix {
-  width: 20px;
-  height: 20px;
+  /* width: 20px; */
+  /* height: 20px; */
+  aspect-ratio: 1/1;
+  width: 10%;
+
   border-top: 2px solid #55555560;
   border-right: 2px solid #55555560;
   border-bottom: 2px solid #ffffff60;
@@ -159,10 +169,11 @@
 }
 
 .keys {
-  display: flex;
+  /* display: flex; */
+  display: none;
   align-items: flex-end;
 
-  position: absolute;
+  /* position: absolute; */
 
   bottom: 60px;
   z-index: 1;
