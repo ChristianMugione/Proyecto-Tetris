@@ -19,6 +19,7 @@ let positionPiece = [0, 4];
 let currentSetOfPieces;
 let angleOfCurrentPiece;
 let gameRun;
+let lastColor = 0;
 
 let arrayBoard = [];
 
@@ -35,7 +36,19 @@ const clearBoard = () => {
 };
 
 const printPixel = (num) => {
-  const color = ["white", "red", "green", "blue", "yellow"];
+  const color = [
+    "white",
+    "red",
+    "green",
+    "lightgreen",
+    "blue",
+    "lightblue",
+    "yellow",
+    "violet",
+    "blueviolet",
+    "orange",
+    "orangered",
+  ];
   const res = `<div class='pix ${color[num]}'"></div>`;
   return res;
 };
@@ -60,7 +73,12 @@ const selectPiece = () => {
   //seleccionar un numero al azar
   currentPieceNumber = Math.floor(Math.random() * pieces.length);
   //selecciona un color
-  const pieceColor = Math.floor(Math.random() * 4) + 1;
+  let pieceColor;
+  do {
+    console.log("elijo color");
+    pieceColor = Math.floor(Math.random() * 10) + 1;
+  } while (pieceColor == lastColor);
+  lastColor = pieceColor;
 
   currentSetOfPieces = [];
   currentSetOfPieces = [...pieces[currentPieceNumber]];
@@ -275,7 +293,7 @@ const checkCollisionRotate = () => {
 
   let collision = false;
   // chequear que el ancho de la pieza no choque margenes
-  if (positionPiece[0] + nextPiece[0].length - 1 > 9) {
+  if (positionPiece[1] + nextPiece[0].length - 1 > 9) {
     collision = true;
   }
 

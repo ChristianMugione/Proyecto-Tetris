@@ -126,12 +126,36 @@
   background-color: green;
 }
 
+.lightgreen {
+  background-color: lightgreen;
+}
+
 .yellow {
   background-color: yellow;
 }
 
 .blue {
   background-color: blue;
+}
+
+.lightblue {
+  background-color: lightblue;
+}
+
+.violet {
+  background-color: violet;
+}
+
+.blueviolet {
+  background-color: blueviolet;
+}
+
+.orange {
+  background-color: orange;
+}
+
+.orangered {
+  background-color: orangered;
 }
 
 .keys {
