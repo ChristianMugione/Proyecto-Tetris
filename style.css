@@ -64,6 +64,7 @@
   /* width: 100%; */
   width: 600px;
   /* height: auto; */
+  position: relative;
 }
 
 .game {
@@ -94,18 +95,24 @@
 .ctrl-btns {
   width: 100%;
   display: flex;
+  flex-direction: column;
   justify-content: space-around;
+  align-items: center;
+  gap: 4px;
 }
 
 .side button {
   aspect-ratio: 1/1;
-  width: 30%;
-  max-width: 40px;
+  width: 60px;
 
   cursor: pointer;
   border: 0;
   border-radius: 30%;
   box-shadow: 0 0 5px gray;
+  font-size: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .right {
@@ -169,17 +176,35 @@
 }
 
 .keys {
-  /* display: flex; */
-  display: none;
-  align-items: flex-end;
-
-  /* position: absolute; */
-
-  bottom: 60px;
-  z-index: 1;
+  position: absolute;
+  bottom: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
-.keys i {
+.keys .bi {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  background-color: #ffffff50;
+  width: 100px;
+  aspect-ratio: 1/1;
+  font-size: 60px;
+  color: #ff9a3b;
+  box-shadow: 0 0 8px -2px lightseagreen;
+}
+
+.keys-left {
+  left: 5px;
+}
+
+.keys-right {
+  right: 5px;
+}
+
+.ctrl-btns .bi {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -188,11 +213,6 @@
   height: 50px;
   border-radius: 8px;
   margin: 2px;
-}
-
-.keys-center {
-  display: flex;
-  flex-direction: column;
 }
 
 @media (max-width: 610px) {

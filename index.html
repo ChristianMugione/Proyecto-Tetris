@@ -12,6 +12,7 @@
 <body class="body">
   <header class="header">
     <h1 class="title">Tetris</h1>
+
     <img src="./img/burger-menu-svgrepo-com.svg" class="burger" />
   </header>
 
@@ -19,9 +20,9 @@
 
     <div class="left side">
       <div class="ctrl-btns">
-        <button id="on"><i class="bi bi-play-circle"></i></button>
-        <button id="pause"><i class="bi bi-pause-circle"></i></button>
-        <button id="off"><i class="bi bi-stop-circle"></i></button>
+        <button id="on"><i class="bi bi-play"></i></button>
+        <button id="pause"><i class="bi bi-pause"></i></button>
+        <button id="off"><i class="bi bi-stop"></i></button>
       </div>
 
     </div>
@@ -32,20 +33,19 @@
         <div id="next-piece-img"></div>
       </div>
     </div>
-  </main>
-  <div class="keys">
-    <div class="keys-left">
+
+    <div class="keys keys-left">
       <i class="bi bi-arrow-left" id="left"></i>
-    </div>
-    <div class="keys-center">
       <i class="bi bi-arrow-clockwise" id="rotate"></i>
-      <i class="bi bi-arrow-down" id="down"></i>
-    </div>
-    <div class="keys-right">
-      <i class="bi bi-arrow-right" id="right"></i>
     </div>
 
-  </div>
+    <div class="keys keys-right">
+      <i class="bi bi-arrow-right" id="right"></i>
+      <i class="bi bi-arrow-down" id="down"></i>
+    </div>
+
+  </main>
+
 </body>
 <script src="pieces.js"></script>
 <script src="main.js"></script>
