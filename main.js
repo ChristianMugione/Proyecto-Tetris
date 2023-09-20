@@ -2,7 +2,7 @@ const left = document.querySelector(".left");
 const game = document.querySelector(".game");
 const right = document.querySelector(".right");
 const buttOn = document.getElementById("on");
-const buttPause = document.getElementById("pause");
+// const buttPause = document.getElementById("pause");
 const buttOff = document.getElementById("off");
 const nextPieceImg = document.getElementById("next-piece-img");
 const btnLeft = document.getElementById("left");
@@ -404,7 +404,7 @@ function gamePause() {
 }
 
 buttOff.addEventListener("click", gameOff);
-buttPause.addEventListener("click", gamePause);
+// buttPause.addEventListener("click", gamePause);
 
 const init = () => {
   positionPiece = [0, 4];
