@@ -55,16 +55,14 @@
 }
 
 .ctrl-btns {
-  /* width: 100%; */
   display: flex;
 
-  /* justify-content: center; */
+  align-items: center;
 
   gap: 4px;
 }
 
 .ctrl-btns button {
-  /* aspect-ratio: 1/1; */
   width: 20px;
   height: 20px;
 
@@ -104,6 +102,18 @@
   aspect-ratio: 1/2;
   height: 100%;
   width: auto;
+}
+
+.main-msg {
+  position: absolute;
+  top: calc(100vh / 3);
+  margin: 0 auto;
+  z-index: 99;
+
+  color: brown;
+  font-size: 50px;
+  font-weight: 900;
+  text-shadow: 2px 2px 4px gray;
 }
 
 .side {

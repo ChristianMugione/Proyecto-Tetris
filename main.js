@@ -2,13 +2,15 @@ const left = document.querySelector(".left");
 const game = document.querySelector(".game");
 const right = document.querySelector(".right");
 const buttOn = document.getElementById("on");
-// const buttPause = document.getElementById("pause");
+const buttPause = document.getElementById("pause");
 const buttOff = document.getElementById("off");
 const nextPieceImg = document.getElementById("next-piece-img");
+const showScore = document.getElementById("score");
 const btnLeft = document.getElementById("left");
 const btnRight = document.getElementById("right");
 const btnDown = document.getElementById("down");
 const btnRotate = document.getElementById("rotate");
+const mainMsg = document.querySelector(".main-msg");
 
 game.innerHTML = "";
 
@@ -20,6 +22,8 @@ let currentSetOfPieces;
 let angleOfCurrentPiece;
 let gameRun;
 let lastColor = 0;
+let gamePaused;
+let score, highscore;
 
 let arrayBoard = [];
 
@@ -67,6 +71,11 @@ const printBoard = () => {
 
 const printNextPiece = () => {
   //imprimo la proxima pieza
+};
+
+const printScore = () => {
+  showScore.innerHTML = "";
+  showScore.innerHTML = score;
 };
 
 const selectPiece = () => {
@@ -362,15 +371,33 @@ const deleteRow = (rowToDel) => {
 };
 
 const checkCompletedLines = () => {
+  let completedLines = 0;
   for (let row = 19; row >= 0; row--) {
     if (!arrayBoard[row].some((num) => num == 0)) {
       deleteRow(row);
       row++;
+      completedLines++;
     }
+  }
+  switch (completedLines) {
+    case 1:
+      score += 100;
+      break;
+    case 2:
+      score += 300;
+      break;
+    case 3:
+      score += 700;
+      break;
+    case 4:
+      score += 1200;
+      break;
   }
 };
 
 const gameOn = () => {
+  printMsg("");
+  gamePaused = false;
   newPiece();
 
   document.addEventListener("keydown", detectKey);
@@ -380,6 +407,7 @@ const gameOn = () => {
     //si abajo de un no-cero hay un no-cero then gameover
     if (checkCollisionDown(currentPiece, positionPiece)) {
       checkCompletedLines();
+      printScore();
       positionPiece = [0, 4];
       newPiece();
     } else {
@@ -400,14 +428,30 @@ function gameOff() {
 }
 
 function gamePause() {
-  clearInterval(gameRun);
+  //deberia simplificar esto y sacarle el eventlistener a buton en cuanto se lo clickea y devolverselo cuando se clickea el stop o en gameover
+  if (gamePaused) {
+    setInterval(gameRun);
+    gamePaused = false;
+    buttOn.addEventListener("click", gameOn);
+  } else {
+    clearInterval(gameRun);
+    gamePaused = true;
+    buttOn.removeEventListener("click", gameOn);
+  }
 }
 
 buttOff.addEventListener("click", gameOff);
-// buttPause.addEventListener("click", gamePause);
+buttPause.addEventListener("click", gamePause);
+
+const printMsg = (msg) => {
+  mainMsg.innerHTML = msg;
+};
 
 const init = () => {
+  gamePaused = false;
   positionPiece = [0, 4];
+  score = 0;
+  printScore();
   clearBoard();
   //arrayBoard[10][5] = 3;
   printBoard();
@@ -419,12 +463,11 @@ const init = () => {
   btnRight.addEventListener("click", moveRight);
   btnDown.addEventListener("click", moveDown);
   btnRotate.addEventListener("click", rotatePiece);
+  printMsg("Click Play");
 };
 
 init();
 /*
-falta girar pieza
-acelerar caida
 imprimir bien game over
 asignar puntajes
 highscores
