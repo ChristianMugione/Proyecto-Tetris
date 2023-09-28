@@ -6,6 +6,8 @@ const buttPause = document.getElementById("pause");
 const buttOff = document.getElementById("off");
 const nextPieceImg = document.getElementById("next-piece-img");
 const showScore = document.getElementById("score");
+const showLast = document.getElementById("last-score");
+const showHigh = document.getElementById("high-score");
 const btnLeft = document.getElementById("left");
 const btnRight = document.getElementById("right");
 const btnDown = document.getElementById("down");
@@ -16,7 +18,7 @@ game.innerHTML = "";
 
 //Declaracion de variables
 
-let currentPiece, nextPiece, currentPieceNumber;
+let currentPiece, nextPiece, nextPieceNumber, currentPieceNumber;
 let positionPiece = [0, 4];
 let currentSetOfPieces;
 let angleOfCurrentPiece;
@@ -70,7 +72,22 @@ const printBoard = () => {
 };
 
 const printNextPiece = () => {
-  //imprimo la proxima pieza
+  let nextPieceHTML = "";
+  for (let col = 0; col < pieces[nextPieceNumber][0][0].length; col++) {
+    nextPieceHTML += "<div class='row'>";
+    console.log("col: ", col);
+    for (let row = 0; row < pieces[nextPieceNumber][0].length; row++) {
+      console.log(pieces[nextPieceNumber][0][row][col]);
+      if (pieces[nextPieceNumber][0][row][col] != 0) {
+        nextPieceHTML += "<div class='pix-next red'></div>";
+      } else {
+        nextPieceHTML += "<div class='pix-next invisible'></div>";
+      }
+      //arrayBoard[realRow][realCol] = currentPiece[row][col];
+    }
+    nextPieceHTML += "</div>";
+  }
+  nextPieceImg.innerHTML = nextPieceHTML;
 };
 
 const printScore = () => {
@@ -78,9 +95,24 @@ const printScore = () => {
   showScore.innerHTML = score;
 };
 
+const printLastScore = () => {
+  const lastScore = localStorage.getItem("last-score");
+  showLast.innerHTML = lastScore;
+};
+
+const printHighScore = () => {
+  const highScore = localStorage.getItem("high-score");
+  showHigh.innerHTML = highScore;
+};
+
 const selectPiece = () => {
-  //seleccionar un numero al azar
-  currentPieceNumber = Math.floor(Math.random() * pieces.length);
+  if (nextPieceNumber < 0) {
+    nextPieceNumber = Math.floor(Math.random() * pieces.length);
+  }
+  currentPieceNumber = nextPieceNumber;
+
+  nextPieceNumber = Math.floor(Math.random() * pieces.length);
+
   //selecciona un color
   let pieceColor;
   do {
@@ -185,18 +217,18 @@ const erasePiece = () => {
 
 const newPiece = () => {
   selectPiece();
+  printNextPiece();
   if (currentPieceNumber === 2) {
     positionPiece = [1, 3];
   }
   if (placeForPiece()) {
-    putPiece(); //inicializar variables
+    putPiece();
     printBoard();
-    //ubicar pieza
+    printNextPiece();
   } else {
-    console.log("Game over");
+    printMsg("Game over");
+    gameOff();
   }
-  //los chequeos de choque deben hacerse de != 0 contra != 0, porque pueden haber numeros diferentes segun color.
-  //cuando vaya a moverse hacia abajo debe controlar que sus numeros inferiores distintos de cero tengan espacio abajo, donde van a moverse. Ahi deben haber ceros. OJO
 };
 
 const checkCollisionLeft = (currPiece, posPiece) => {
@@ -395,34 +427,42 @@ const checkCompletedLines = () => {
   }
 };
 
+const gameUpdate = () => {
+  if (checkCollisionDown(currentPiece, positionPiece)) {
+    checkCompletedLines();
+    printScore();
+    positionPiece = [0, 4];
+    newPiece();
+  } else {
+    erasePiece();
+    positionPiece[0] += 1;
+    putPiece();
+    printBoard();
+  }
+};
+
 const gameOn = () => {
   printMsg("");
+  buttOn.removeEventListener("click", gameOn);
+  buttPause.addEventListener("click", gamePause);
+  buttOff.addEventListener("click", gameOff);
   gamePaused = false;
   newPiece();
 
   document.addEventListener("keydown", detectKey);
 
-  gameRun = setInterval(() => {
-    //chequear colision abajo: SI => gameover
-    //si abajo de un no-cero hay un no-cero then gameover
-    if (checkCollisionDown(currentPiece, positionPiece)) {
-      checkCompletedLines();
-      printScore();
-      positionPiece = [0, 4];
-      newPiece();
-    } else {
-      // borrar pieza de su posicion y:
-      erasePiece();
-      positionPiece[0] += 1;
-      putPiece();
-      printBoard();
-      //console.log("New position: ", positionPiece[0]);
-      //console.log(arrayBoard);
-    }
-  }, 1000);
+  gameRun = setInterval(gameUpdate, 1000);
 };
 
 function gameOff() {
+  const highScore = localStorage.getItem("high-score");
+  nextPieceImg.innerHTML = "";
+  console.log("gameOff");
+  if (score > highScore) {
+    localStorage.setItem("high-score", score);
+    printHighScore();
+  }
+  localStorage.setItem("last-score", score);
   clearInterval(gameRun);
   init();
 }
@@ -432,16 +472,13 @@ function gamePause() {
   if (gamePaused) {
     setInterval(gameRun);
     gamePaused = false;
-    buttOn.addEventListener("click", gameOn);
+    // buttOn.addEventListener("click", gameOn);
   } else {
     clearInterval(gameRun);
     gamePaused = true;
-    buttOn.removeEventListener("click", gameOn);
+    // buttOn.removeEventListener("click", gameOn);
   }
 }
-
-buttOff.addEventListener("click", gameOff);
-buttPause.addEventListener("click", gamePause);
 
 const printMsg = (msg) => {
   mainMsg.innerHTML = msg;
@@ -449,13 +486,15 @@ const printMsg = (msg) => {
 
 const init = () => {
   gamePaused = false;
+  nextPieceNumber = -1;
   positionPiece = [0, 4];
   score = 0;
   printScore();
+  printLastScore();
+  printHighScore();
   clearBoard();
   //arrayBoard[10][5] = 3;
   printBoard();
-  printNextPiece();
 
   //console.log(arrayBoard);
   buttOn.addEventListener("click", gameOn);

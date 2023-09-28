@@ -59,12 +59,12 @@
 
   align-items: center;
 
-  gap: 4px;
+  gap: 8px;
 }
 
 .ctrl-btns button {
-  width: 20px;
-  height: 20px;
+  width: 30px;
+  height: 30px;
 
   cursor: pointer;
   border: 0;
@@ -81,6 +81,19 @@
   justify-content: center;
   align-items: center;
   background-color: #ffffff50;
+  font-size: 30px;
+}
+
+.scores {
+  display: flex;
+  gap: 12px;
+}
+
+.score-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 16px;
 }
 
 .container {
@@ -153,6 +166,35 @@
   border-radius: 4px;
 }
 
+.next-piece {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#next-piece-img {
+  display: flex;
+  flex-direction: column;
+  width: min-content;
+}
+
+.row {
+  display: flex;
+}
+
+.pix-next {
+  /* width: 20px; */
+  /* height: 20px; */
+  aspect-ratio: 1/1;
+  width: 10px;
+
+  border-top: 1px solid #55555560;
+  border-right: 1px solid #55555560;
+  border-bottom: 1px solid #ffffff60;
+  border-left: 1px solid #ffffff60;
+  border-radius: 2px;
+}
+
 .red {
   background-color: red;
 }
@@ -166,7 +208,7 @@
 }
 
 .yellow {
-  background-color: yellow;
+  background: yellow;
 }
 
 .blue {
@@ -191,6 +233,10 @@
 
 .orangered {
   background-color: orangered;
+}
+
+.invisible {
+  background-color: transparent;
 }
 
 .keys {
