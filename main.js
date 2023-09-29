@@ -14,8 +14,6 @@ const btnDown = document.getElementById("down");
 const btnRotate = document.getElementById("rotate");
 const mainMsg = document.querySelector(".main-msg");
 
-game.innerHTML = "";
-
 //Declaracion de variables
 
 let currentPiece, nextPiece, nextPieceNumber, currentPieceNumber;
@@ -226,8 +224,9 @@ const newPiece = () => {
     printBoard();
     printNextPiece();
   } else {
-    printMsg("Game over");
+    //printMsg("Game over");
     gameOff();
+    alert("Game over");
   }
 };
 
@@ -444,7 +443,7 @@ const gameUpdate = () => {
 const gameOn = () => {
   printMsg("");
   buttOn.removeEventListener("click", gameOn);
-  buttPause.addEventListener("click", gamePause);
+  //buttPause.addEventListener("click", gamePause);
   buttOff.addEventListener("click", gameOff);
   gamePaused = false;
   newPiece();
@@ -468,7 +467,7 @@ function gameOff() {
 }
 
 function gamePause() {
-  //deberia simplificar esto y sacarle el eventlistener a buton en cuanto se lo clickea y devolverselo cuando se clickea el stop o en gameover
+  /*
   if (gamePaused) {
     setInterval(gameRun);
     gamePaused = false;
@@ -478,6 +477,7 @@ function gamePause() {
     gamePaused = true;
     // buttOn.removeEventListener("click", gameOn);
   }
+  */
 }
 
 const printMsg = (msg) => {
@@ -506,8 +506,3 @@ const init = () => {
 };
 
 init();
-/*
-imprimir bien game over
-asignar puntajes
-highscores
-*/
