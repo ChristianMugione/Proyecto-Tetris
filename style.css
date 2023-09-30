@@ -121,6 +121,11 @@
   font-size: 40px;
   font-weight: 900;
   text-shadow: 2px 2px 4px gray;
+  text-align: center;
+}
+
+.main-msg small {
+  font-size: 0.6em;
 }
 
 .side {
