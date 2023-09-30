@@ -3,6 +3,7 @@
   padding: 0;
   list-style: none;
   box-sizing: border-box;
+  text-decoration: none;
 }
 
 .body {
@@ -99,7 +100,7 @@
   height: calc(100vh - 40px);
   max-height: 120vw;
   width: 600px;
-  position: relative;
+  /* position: relative; */
 }
 
 .game {
@@ -117,7 +118,7 @@
   z-index: 99;
 
   color: brown;
-  font-size: 50px;
+  font-size: 40px;
   font-weight: 900;
   text-shadow: 2px 2px 4px gray;
 }
@@ -193,11 +194,11 @@
 }
 
 .lightgreen {
-  background-color: lightgreen;
+  background-color: rgb(0, 255, 0);
 }
 
 .yellow {
-  background: yellow;
+  background: rgb(255, 255, 0);
 }
 
 .blue {
@@ -205,7 +206,7 @@
 }
 
 .lightblue {
-  background-color: lightblue;
+  background-color: rgb(0, 191, 255);
 }
 
 .violet {
@@ -245,8 +246,12 @@
   width: 100px;
   aspect-ratio: 1/1;
   font-size: 60px;
-  color: #ff9a3b;
+  color: #4f0a55;
   box-shadow: 0 0 8px -2px lightseagreen;
+}
+
+.keys .bi:active {
+  border: 2px solid #4f0a55;
 }
 
 .keys-left {
@@ -255,6 +260,19 @@
 
 .keys-right {
   right: 5px;
+}
+
+a {
+  margin-top: 4px;
+  color: #4f0a55;
+  text-shadow: 0 0 15px yellow;
+  font-size: 1.2em;
+}
+
+@media (orientation: landscape) {
+  .keys {
+    display: none;
+  }
 }
 
 @media (max-width: 610px) {

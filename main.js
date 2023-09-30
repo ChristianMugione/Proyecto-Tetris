@@ -442,6 +442,8 @@ const gameUpdate = () => {
 
 const gameOn = () => {
   printMsg("");
+  buttOn.style.display = "none";
+  buttOff.style.display = "block";
   buttOn.removeEventListener("click", gameOn);
   //buttPause.addEventListener("click", gamePause);
   buttOff.addEventListener("click", gameOff);
@@ -485,6 +487,8 @@ const printMsg = (msg) => {
 };
 
 const init = () => {
+  buttOn.style.display = "block";
+  buttOff.style.display = "none";
   gamePaused = false;
   nextPieceNumber = -1;
   positionPiece = [0, 4];
