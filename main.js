@@ -506,7 +506,7 @@ const init = () => {
   btnRight.addEventListener("click", moveRight);
   btnDown.addEventListener("click", moveDown);
   btnRotate.addEventListener("click", rotatePiece);
-  printMsg("Click Play<br><small>Use Arrow Keys</small>");
+  printMsg(`Touch Screen<br><small>Use Arrow Keys to play</small>`);
 };
 
 init();
